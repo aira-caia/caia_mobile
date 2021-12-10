@@ -197,6 +197,7 @@ class _ReceiptAppState extends State<ReceiptApp> {
 
   @override
   Widget build(BuildContext context) {
+    print(payload);
     final screen = MediaQuery.of(context).size.width;
     return WillPopScope(
       onWillPop: () async => false,

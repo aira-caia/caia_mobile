@@ -149,6 +149,7 @@ class _EqualPaymentState extends State<EqualPayment> {
           "Content-type": "application/json",
           "Authorization": paymentBearerToken
         });
+
     setState(() {
       receiptNumbers.add(receiptNumber);
       paidCounter++;
