@@ -160,6 +160,8 @@ class _EqualPaymentState extends State<EqualPayment> {
     if (paymentUrls.length == 1) {
       this.counter = 0;
       controller.loadUrl(paymentUrls[0]);
+    }else{
+      counter = 0;
     }
   }
 
