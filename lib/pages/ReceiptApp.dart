@@ -119,6 +119,7 @@ class _ReceiptAppState extends State<ReceiptApp> {
   }
 
   List<Widget> orderCards(screen) {
+    double c_width = MediaQuery.of(context).size.width*0.5;
     List orders = response['orders'];
     List data = orders.map((element) {
       return Card(
@@ -159,10 +160,18 @@ class _ReceiptAppState extends State<ReceiptApp> {
                   SizedBox(
                     height: 10.0,
                   ),
-                  Text(
-                    element['ingredients'] ?? "",
-                    style: cardSubtitle(),
-                  )
+                   Container (
+                      width: c_width,
+                      child: new Column (
+                        children: <Widget>[
+                          Text(
+                            element['ingredients'] ?? "",
+                            style: cardSubtitle(),
+                            softWrap: true,
+                          )
+                        ],
+                      ),
+                    ),
                 ],
               ),
               Spacer(),

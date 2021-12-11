@@ -56,8 +56,7 @@ class _AdminAppState extends State<AdminApp> {
       "Accept": "application/json",
       "Content-Type": "application/json",
       // "Authorization": "Bearer ${payload['token']}",
-      "Authorization": "Bearer $appKey",
-    });
+      "Authorization": "Bearer $appKey",});
 
     try{
       Map body = jsonDecode(request.body);
@@ -68,6 +67,7 @@ class _AdminAppState extends State<AdminApp> {
 
       setState(() {
         this.orders = body['data'];
+        this.orders = this.orders.where((e) => e['orders'].length > 0).toList();
         if (!initiated) initiated = true;
 
       });

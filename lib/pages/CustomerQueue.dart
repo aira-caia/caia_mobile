@@ -63,6 +63,8 @@ class _CustomerQueueState extends State<CustomerQueue> {
       if (body['data'] == null) return;
       setState(() {
         this.orders = body['data'];
+        this.orders = this.orders.where((e) => e['orders'].length > 0).toList();
+
         if (!initiated) initiated = true;
       });
     } catch (err) {
