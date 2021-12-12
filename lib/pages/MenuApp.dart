@@ -128,6 +128,7 @@ class _MenuAppState extends State<MenuApp> {
       print(response.body);
       Map data = jsonDecode(response.body);
       List list = data['data'];
+      list = list.where((element) => element['quantity'].toString() != '0').toList();
       if(list.length > 0) {
         hasData = true;
       }
@@ -156,7 +157,7 @@ class _MenuAppState extends State<MenuApp> {
             padding: const EdgeInsets.only(bottom: 8.0),
             child: Wrap(
               alignment: WrapAlignment.spaceBetween,
-              children: menuItems,
+              children: menuItems.where((element) => element.quantity != '0').toList(),
             ),
           ),
         ];
