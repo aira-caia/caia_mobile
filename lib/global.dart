@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 * */
 
 //Set this variable to your ip address, but dont change the 8000 (port)
-final String urlDomain = "http://caia-app.herokuapp.com";
+// final String urlDomain = "http://192.168.88.199:8000";
+final String urlDomain = "https://caia-app.herokuapp.com";
 //This is a token that we got from paymaya sandbox.
 final String paymentBearerToken =
     "Bearer \$2y\$10\$tmoxPjspNPUZvXDUsMg.huWw4RGsaA.aiivrKs1kOhafxaMubAAZ.";

@@ -25,6 +25,8 @@ class _CustomerQueueState extends State<CustomerQueue> {
   String serveOption = "ALL ORDERS";
   String tableName;
 
+  List refs = [];
+
   void setupSharedPrefs() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     tableName = prefs.getString("table_name");
@@ -63,7 +65,7 @@ class _CustomerQueueState extends State<CustomerQueue> {
       if (body['data'] == null) return;
       setState(() {
         this.orders = body['data'];
-        this.orders = this.orders.where((e) => e['orders'].length > 0).toList();
+        this.orders = this.orders.where((e) => e['orders'].length > 0 && e['table_name'] == tableName).toList();
 
         if (!initiated) initiated = true;
       });
@@ -79,13 +81,23 @@ class _CustomerQueueState extends State<CustomerQueue> {
         Padding(
           padding: EdgeInsets.symmetric(vertical: 100.0),
           child: Text(
-            "NO RECORDS FOUND",
+            "NO ORDERS FOUND",
             style: TextStyle(fontSize: 44.0, fontWeight: FontWeight.w300, color: Colors.red),
           ),
         )
       ].toList();
     }
-    return orders.map((order) {
+
+    refs = [];
+    List newOrders = [];
+    orders.forEach((element) {
+      if(refs.indexOf(element['order_code']) == -1) {
+        refs.add(element['order_code']);
+        newOrders.add(element);
+      }
+    });
+
+    return newOrders.map((order) {
       List<Widget> cardsOfOrders = [];
       return Padding(
         padding: const EdgeInsets.all(16.0),
