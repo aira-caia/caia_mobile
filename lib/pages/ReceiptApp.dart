@@ -160,12 +160,18 @@ class _ReceiptAppState extends State<ReceiptApp> {
                   SizedBox(
                     height: 10.0,
                   ),
+                  element['ingredients'].toString().length < 24 ?
+                  Text(
+                    element['ingredients'] ?? "",
+                    style: cardSubtitle(),
+                    softWrap: true,
+                  ) :
                    Container (
                       width: c_width,
                       child: new Column (
                         children: <Widget>[
                           Text(
-                            element['ingredients'] ?? "",
+                            element['ingredients'] + "" ?? "",
                             style: cardSubtitle(),
                             softWrap: true,
                           )

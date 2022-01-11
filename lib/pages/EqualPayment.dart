@@ -191,7 +191,7 @@ class _EqualPaymentState extends State<EqualPayment> {
           headers: {
             "Authorization":
                 "Basic cGstTU9mTkt1M0ZtSE1WSHRqeWpHN3Zocjd2RmV2UmtXeG14WUwxWXE2aUZrNTo=",
-            // "Content-type": "application/json"
+            "Content-type": "application/json"
           },
           body: jsonEncode(body));
       Map responseBody = jsonDecode(response.body);

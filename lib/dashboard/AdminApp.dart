@@ -9,6 +9,7 @@ import 'package:appcaia/utils/Navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart';
+import 'package:sweetalert/sweetalert.dart';
 
 import '../main.dart';
 
@@ -76,6 +77,24 @@ class _AdminAppState extends State<AdminApp> {
     }
   }
 
+  void confirmToggle(order) async {
+    Uri uri = Uri.parse(
+        "$urlDomain/api/payment/${order['id']}");
+    Response request = await patch(uri, headers: {
+      "Accept": "application/json",
+      "Content-Type": "application/json",
+      "Authorization": "Bearer ${payload['token']}"
+    });
+    final snackBar = SnackBar(
+      content: Text(
+          'Orders has been set to ${order['is_served']  == true ? "Not served" : "Served"}'),
+      duration: Duration(milliseconds: 1500),
+    );
+    ScaffoldMessenger.of(context)
+        .showSnackBar(snackBar);
+    fetchPayments();
+  }
+
   /*Function that we created that returns a list of Widget (Order Widget)*/
   List<Widget> queue(BuildContext context) {
     if (orders.isEmpty) {
@@ -118,24 +137,18 @@ class _AdminAppState extends State<AdminApp> {
                           Spacer(),
                           OutlinedButton(
                             onPressed: () async {
-                              Uri uri = Uri.parse(
-                                  "$urlDomain/api/payment/${order['id']}");
-                              Response request = await patch(uri, headers: {
-                                "Accept": "application/json",
-                                "Content-Type": "application/json",
-                                "Authorization": "Bearer ${payload['token']}"
-                              });
-                              final snackBar = SnackBar(
-                                content: Text(
-                                    'Orders has been set to ${order['is_served'] == true ? "Not served" : "Served"}'),
-                                duration: Duration(milliseconds: 1500),
-                              );
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(snackBar);
-                              fetchPayments();
+                              SweetAlert.show(context,
+                                  subtitle: "Are you sure? Please press confirm below.",
+                                  style: SweetAlertStyle.confirm,
+                                  showCancelButton: true, onPress: (bool isConfirm) {
+                                    if (isConfirm) {
+                                      confirmToggle(order);
+                                    }
+                                    return true;
+                                  });
                             },
                             child: Text(
-                              order['is_served'] == true ? "Served" : "Not Served",
+                              order['is_served']== true ? "Served" : "Not Served",
                               style: TextStyle(
                                   fontSize: 16.0,
                                   fontFamily: "Roboto",

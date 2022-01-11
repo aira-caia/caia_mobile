@@ -125,7 +125,6 @@ class _MenuAppState extends State<MenuApp> {
       Uri uri =
           Uri.parse("$urlDomain/api/menu?query=$selectedCategory&s=$search");
       http.Response response = await http.get(uri);
-      print(response.body);
       Map data = jsonDecode(response.body);
       List list = data['data'];
       list = list.where((element) => element['quantity'].toString() != '0').toList();

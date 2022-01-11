@@ -63,7 +63,7 @@ class _CustomerQueueState extends State<CustomerQueue> {
       if (body['data'] == null) return;
       setState(() {
         this.orders = body['data'];
-        this.orders = this.orders.where((e) => e['orders'].length > 0).toList();
+        this.orders = this.orders.where((e) => e['orders'].length > 0 && e['table_name'] == tableName).toList();
 
         if (!initiated) initiated = true;
       });
@@ -79,12 +79,13 @@ class _CustomerQueueState extends State<CustomerQueue> {
         Padding(
           padding: EdgeInsets.symmetric(vertical: 100.0),
           child: Text(
-            "NO RECORDS FOUND",
+            "NO ORDERS FOUND",
             style: TextStyle(fontSize: 44.0, fontWeight: FontWeight.w300, color: Colors.red),
           ),
         )
       ].toList();
     }
+
     return orders.map((order) {
       List<Widget> cardsOfOrders = [];
       return Padding(

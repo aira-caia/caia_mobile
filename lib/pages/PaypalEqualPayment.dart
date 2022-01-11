@@ -81,6 +81,9 @@ class _PaypalEqualPaymentState extends State<PaypalEqualPayment> {
       "method": "paypal",
     };
 
+    // print("All gooods!!!" + receiptNumber);
+
+
     http.Response response = await http.post(url,
         body: json.encode(data),
         headers: {
@@ -88,15 +91,25 @@ class _PaypalEqualPaymentState extends State<PaypalEqualPayment> {
           "Accept": "application/json",
           "Authorization": paymentBearerToken
         });
-    setState(() {
-      isPayingOnPaypal = false;
-      print(response.body);
-      receiptNumbers.add(jsonDecode(response.body)['receipt_number']);
-      paidIndexes.add(index);
-      if(int.parse(payload['count']) == paidIndexes.length) {
-        viewReceipt();
-      }
-    });
+    if(jsonDecode(response.body)['message'] == 'OK') {
+      setState(() {
+        isPayingOnPaypal = false;
+        receiptNumbers.add(jsonDecode(response.body)['receipt_number']);
+        paidIndexes.add(index);
+        if(int.parse(payload['count']) == paidIndexes.length) {
+          viewReceipt();
+        }
+      });
+    }else{
+      print("Error: " + response.body);
+      SweetAlert.show(context,
+          title: "Payment Process Failed, please try again.",
+          style: SweetAlertStyle.error);
+      setState(() {
+        isPayingOnPaypal = false;
+      });
+    }
+
   }
 
   @override
