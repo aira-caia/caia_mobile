@@ -26,6 +26,7 @@ class AdminApp extends StatefulWidget {
 class _AdminAppState extends State<AdminApp> {
   Map payload;
   List orders = [];
+  List refs = [];
   bool isLogout = false;
   var is_served;
   String serveOption = "ALL ORDERS";
@@ -62,8 +63,6 @@ class _AdminAppState extends State<AdminApp> {
     try{
       Map body = jsonDecode(request.body);
 
-      print(body);
-
       if (body['data'] == null) return;
 
       setState(() {
@@ -73,7 +72,7 @@ class _AdminAppState extends State<AdminApp> {
 
       });
     }catch(err){
-      print("Timed out fetching orders");
+      print("Timed out fetching orders " + err.toString());
     }
   }
 
@@ -108,7 +107,18 @@ class _AdminAppState extends State<AdminApp> {
         )
       ].toList();
     }
-    return orders.map((order) {
+
+    refs = [];
+    List newOrders = [];
+    orders.forEach((element) {
+      if(refs.indexOf(element['order_code']) == -1) {
+        refs.add(element['order_code']);
+        newOrders.add(element);
+      }
+    });
+
+
+    return newOrders.map((order) {
       List<Widget> cardsOfOrders = [];
       // order['orders'].
 
@@ -137,6 +147,8 @@ class _AdminAppState extends State<AdminApp> {
                           Spacer(),
                           OutlinedButton(
                             onPressed: () async {
+                              if(order['is_served'] == true || order['is_served'] == 1) return true;
+
                               SweetAlert.show(context,
                                   subtitle: "Are you sure? Please press confirm below.",
                                   style: SweetAlertStyle.confirm,

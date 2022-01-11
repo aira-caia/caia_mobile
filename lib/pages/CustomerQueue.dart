@@ -25,6 +25,8 @@ class _CustomerQueueState extends State<CustomerQueue> {
   String serveOption = "ALL ORDERS";
   String tableName;
 
+  List refs = [];
+
   void setupSharedPrefs() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     tableName = prefs.getString("table_name");
@@ -86,7 +88,16 @@ class _CustomerQueueState extends State<CustomerQueue> {
       ].toList();
     }
 
-    return orders.map((order) {
+    refs = [];
+    List newOrders = [];
+    orders.forEach((element) {
+      if(refs.indexOf(element['order_code']) == -1) {
+        refs.add(element['order_code']);
+        newOrders.add(element);
+      }
+    });
+
+    return newOrders.map((order) {
       List<Widget> cardsOfOrders = [];
       return Padding(
         padding: const EdgeInsets.all(16.0),
