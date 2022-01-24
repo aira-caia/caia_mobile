@@ -121,11 +121,11 @@ class _AdminAppState extends State<AdminApp> {
     return newOrders.map((order) {
       List<Widget> cardsOfOrders = [];
       // order['orders'].
-
+      print(order['is_served']);
       return Padding(
         padding: const EdgeInsets.all(16.0),
         child: Card(
-          color: Color(0xff1D005B),
+          color: order['is_served'] || int.parse(order['time_passed']) < int.parse(order['total_preparation']) ? Color(0xff1D005B) : Colors.red,
           child: Padding(
             padding: const EdgeInsets.all(18.0),
             child: Column(
@@ -326,29 +326,7 @@ class _AdminAppState extends State<AdminApp> {
                                     fontSize: 22)),
                           ])),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20.0),
-                      child: RichText(
-                          textAlign: TextAlign.center,
-                          text: TextSpan(children: [
-                            WidgetSpan(
-                                child: Padding(
-                              padding: const EdgeInsets.only(right: 10.0),
-                              child: Icon(
-                                Icons.access_time_sharp,
-                                color: Colors.white.withOpacity(.8),
-                                size: 22,
-                              ),
-                            )),
-                            TextSpan(
-                                text: /*"Date paid: April, 15, 2000 - 8:30 pm"*/ order[
-                                    'time_passed'],
-                                style: TextStyle(
-                                    fontFamily: "Roboto",
-                                    color: Colors.white.withOpacity(.8),
-                                    fontSize: 22)),
-                          ])),
-                    ),
+
                     Padding(
                       padding: const EdgeInsets.only(top: 20.0),
                       child: RichText(
@@ -395,6 +373,40 @@ class _AdminAppState extends State<AdminApp> {
                                     fontSize: 22)),
                           ])),
                     ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20.0),
+                      child: RichText(
+                          textAlign: TextAlign.center,
+                          text: TextSpan(children: [
+                            WidgetSpan(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(right: 10.0),
+                                  child: Icon(
+                                    Icons.access_time_sharp,
+                                    color: Colors.white.withOpacity(.8),
+                                    size: 22,
+                                  ),
+                                )),
+                            TextSpan(
+                                text: /*"Date paid: April, 15, 2000 - 8:30 pm"*/ order[
+                                'time_passed'] + ' minutes ago',
+                                style: TextStyle(
+                                    fontFamily: "Roboto",
+                                    color: Colors.white.withOpacity(.8),
+                                    fontSize: 22)),
+                          ])),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 2.0),
+                      child: Chip(label: Text(
+                        order['total_preparation'] + " minutes avg waiting time",
+                        style: TextStyle(
+                            fontFamily: "Roboto",
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.0,
+                            color: Colors.white),
+                      ),backgroundColor: Colors.blue,
+                          avatar: Icon(Icons.access_time_sharp, color: Colors.white,),padding: EdgeInsets.only(left: 1.0)),),
                   ],
                 ),
               ],

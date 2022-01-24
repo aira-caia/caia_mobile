@@ -212,13 +212,17 @@ class _ProductAppState extends State<ProductApp> {
                         style:
                         TextStyle(fontWeight: FontWeight.w300, fontSize: 10.0),
                       ),
-                      Text(
-                        payload['menu']['ingredients'] ?? "Not Available",
-                        style: TextStyle(fontSize: 12.0),
-                      ),
+                      Container(
+                          height: 80,
+                          child: SingleChildScrollView(
+                              child: Text(
+                                payload['menu']['ingredients'] ?? "Not Available",
+                                style: TextStyle(fontSize: 12.0),
+                              )))
+
                     ],
                   ),
-                )
+                ),
               ],),
             )
           ],
