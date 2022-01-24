@@ -127,7 +127,7 @@ class _MenuAppState extends State<MenuApp> {
       http.Response response = await http.get(uri);
       Map data = jsonDecode(response.body);
       List list = data['data'];
-      list = list.where((element) => element['quantity'].toString() != '0').toList();
+      list = list.where((element) => element['quantity'].toString() != '0' && element['is_available']).toList();
       if(list.length > 0) {
         hasData = true;
       }
@@ -137,6 +137,10 @@ class _MenuAppState extends State<MenuApp> {
                 orders: this.orders,
                 title: e['title'],
                 price: e['price'],
+                previous_price: e['previous_price'],
+                preparation_time: e['preparation_time'],
+                best_seller: e['best_seller'],
+                purchases: e['purchases'],
                 quantity: e['quantity'].toString(),
                 ingredients: e['ingredients'],
                 handler: {

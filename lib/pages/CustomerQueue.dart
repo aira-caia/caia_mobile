@@ -332,7 +332,30 @@ class _CustomerQueueState extends State<CustomerQueue> {
                             )),
                             TextSpan(
                                 text: /*"Date paid: April, 15, 2000 - 8:30 pm"*/ order[
-                                    'time_passed'],
+                                    'time_passed'] + ' minutes ago',
+                                style: TextStyle(
+                                    fontFamily: "Roboto",
+                                    color: Colors.white.withOpacity(.8),
+                                    fontSize: 22)),
+                          ])),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20.0),
+                      child: RichText(
+                          textAlign: TextAlign.center,
+                          text: TextSpan(children: [
+                            WidgetSpan(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(right: 10.0),
+                                  child: Icon(
+                                    Icons.access_time_sharp,
+                                    color: Colors.white.withOpacity(.8),
+                                    size: 22,
+                                  ),
+                                )),
+                            TextSpan(
+                                text: /*"Date paid: April, 15, 2000 - 8:30 pm"*/ order[
+                                'total_preparation'] + ' avg waiting time',
                                 style: TextStyle(
                                     fontFamily: "Roboto",
                                     color: Colors.white.withOpacity(.8),
